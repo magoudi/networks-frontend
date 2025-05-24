@@ -12,15 +12,16 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/system";
 
-const API_URL = "http://localhost:5111/";
+const API_URL = "https://5aba-196-137-44-11.ngrok-free.app/";
 
 const Container = styled("div")({
   minHeight: "100vh",
+  maxWidth: "100vw",
   background: "linear-gradient(to bottom right, #cfe0fc, #dee9fd)",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  padding: "2rem",
+  padding: "0 2rem",
 });
 
 const getTempColor = (temp: number) => {
@@ -40,6 +41,7 @@ const formatDecimal = (value: number) => {
 };
 
 export default function SmartCoolingUI() {
+  axios.defaults.headers.common["ngrok-skip-browser-warning"] = "any-value";
   const [mode, setMode] = useState("auto");
   const [temperature, setTemperature] = useState<number>(26);
   const [humidity, setHumidity] = useState<number>(50);
@@ -51,6 +53,7 @@ export default function SmartCoolingUI() {
         const response = await axios.get(`${API_URL}get_data`);
         const res = response.data;
         // Ensure numeric values
+        console.log("Fetched data:", res);
         setTemperature(parseFloat(res.temperature));
         setHumidity(parseFloat(res.humidity));
       } catch (error) {
@@ -93,7 +96,7 @@ export default function SmartCoolingUI() {
   return (
     <Container>
       <Card
-        sx={{ width: 400, boxShadow: 6, borderRadius: 4, paddingBottom: 2 }}
+        sx={{ width: "100%", boxShadow: 6, borderRadius: 4, paddingBottom: 2 }}
       >
         <CardContent>
           <Typography variant="h4" gutterBottom align="center">
